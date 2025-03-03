@@ -247,5 +247,51 @@ namespace reactBAckend.Repository
             }
         }
         #endregion
+
+
+        #region EliminarAlum
+        public bool EliminarAlumno(int id) {
+            try
+            {
+
+                var alumno = contexto.Alumnos.Where(x => x.Id == id).FirstOrDefault();
+                if (alumno != null)
+                {
+
+                    var matriculaA = contexto.Matriculas.Where(x => x.AlumnoId == alumno.Id).ToList();
+                    Console.WriteLine("Alumno  encontrado");
+
+                    foreach (Matricula m in matriculaA)
+                    {
+                        var calificacion = contexto.Calificacions.Where(x => x.MatriculaId == m.Id).ToList();
+                        Console.WriteLine("Matricula encontrada");
+                        contexto.Calificacions.RemoveRange(calificacion);
+
+                    }
+                    contexto.Matriculas.RemoveRange(matriculaA);
+                    contexto.Alumnos.Remove(alumno);
+                    contexto.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Alumno no encontrado");
+                    return false;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+
+            }
+
+        }
+        #endregion
     }
+
+
 }
