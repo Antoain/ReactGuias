@@ -43,5 +43,25 @@ namespace reactBAckend.Repository
 
         }
         #endregion
+        #region insertarDatos
+        public bool Insertar(Calificacion calificacion) {
+            try
+            {
+                if (calificacion == null)
+                {
+                    return false;
+                }
+                var addCalificacion = _contexto.Calificacions.Add(calificacion);
+                _contexto.SaveChanges();
+                return true;
+
+            }
+            catch (Exception ex) { 
+                return false;
+            
+            }
+        
+        }
+        #endregion
     }
 }

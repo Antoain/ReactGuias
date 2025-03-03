@@ -21,5 +21,13 @@ namespace webAPI.Controllers
         
         }
         #endregion
+
+
+        #region ingresarDatos
+        [HttpPost("calificacion")]
+        public bool Insertar([FromBody] Calificacion calificacion) { 
+            return _cdao.Insertar(calificacion);
+        }
+        #endregion
     }
 }
