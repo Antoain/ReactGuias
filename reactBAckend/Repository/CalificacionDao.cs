@@ -43,6 +43,7 @@ namespace reactBAckend.Repository
 
         }
         #endregion
+
         #region insertarDatos
         public bool Insertar(Calificacion calificacion) {
             try
@@ -56,12 +57,38 @@ namespace reactBAckend.Repository
                 return true;
 
             }
-            catch (Exception ex) { 
+            catch (Exception ex) {
                 return false;
-            
+
             }
-        
+
         }
+        #endregion
+
+        #region borrar
+        public bool eliminarCalificacion(int id)
+        {
+            var calificacion = _contexto.Calificacions.Where(x => x.Id == id).FirstOrDefault();
+            try
+            {
+                if (calificacion != null)
+                {
+
+                    _contexto.Calificacions.Remove(calificacion);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex) { 
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        
         #endregion
     }
 }

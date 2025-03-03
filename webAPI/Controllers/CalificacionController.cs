@@ -29,5 +29,13 @@ namespace webAPI.Controllers
             return _cdao.Insertar(calificacion);
         }
         #endregion
+
+        #region EliminarCalificaciones
+        [HttpDelete("calificacion")]
+        public bool delete(int idCalificacion)
+        {
+            return _cdao.eliminarCalificacion(idCalificacion);
+        }
+        #endregion
     }
 }
