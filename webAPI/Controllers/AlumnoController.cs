@@ -19,7 +19,6 @@ namespace webAPI.Controllers
         }
         #endregion
 
-
         #region SelectById
         [HttpGet("alumno")]
 
@@ -43,5 +42,13 @@ namespace webAPI.Controllers
 
         #endregion
 
+        #region AlumnoMatricula
+        [HttpPost("alumno")]
+        public bool InsertarMatricula([FromBody] Alumno alumno, int idAsignatura) {
+            return _dao.InsertarMatricula(alumno, idAsignatura);
+        
+        
+        }
+        #endregion
     }
 }

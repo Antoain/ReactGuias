@@ -157,6 +157,7 @@ namespace reactBAckend.Repository
             return listadoALumno.ToList();
         }
         #endregion
+
         #region update alumno
 
         public bool update(int id, Alumno actualizar)
@@ -190,5 +191,61 @@ namespace reactBAckend.Repository
         }
         #endregion
 
+        #region Seleccionar por Dni
+        public Alumno DNIAlumno(Alumno alumno) { 
+            var alumnos = contexto.Alumnos.Where(x => x.Dni == alumno.Dni).FirstOrDefault();
+            return alumnos == null ? null : alumnos;
+
+        
+        }
+        #endregion
+
+        #region AlumnoMatricula
+        public bool InsertarMatricula(Alumno alumno, int idAsing) {
+            try
+            {
+                var alumnoDNI = DNIAlumno(alumno);
+                if (alumnoDNI == null)
+                {
+                    InsertarAlumno(alumno);
+                    var alumnoInsertado = DNIAlumno(alumno);
+                    var unirAlumnoMatricula = matriculaAsignaturaAlumno(alumno, idAsing);
+                    if (unirAlumnoMatricula == false) { 
+                        return false;
+                    
+                    }
+                    return true;
+                }
+                else
+                {
+                    matriculaAsignaturaAlumno(alumnoDNI, idAsing);
+                    return true;
+                }
+            }
+            catch (Exception ex) { 
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        #endregion
+        #region Matriculaasig
+        public bool matriculaAsignaturaAlumno(Alumno alumno, int idAsignatura) {
+
+            try
+            {
+                Matricula matricula = new Matricula();
+                matricula.Alumno.Id = alumno.Id;
+                matricula.AsignaturaId = idAsignatura;
+
+                contexto.Matriculas.Add(matricula);
+                contexto.SaveChanges();
+                return true;
+            }
+            catch (Exception ex) { 
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        #endregion
     }
 }
